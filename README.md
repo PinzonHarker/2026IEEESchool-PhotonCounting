@@ -1,49 +1,50 @@
-# Experiment - Masaharu
-October/2026
-NOMACHI, Masaharu
-An activity of photon counting detection.
+# Photon Counting
 
-## Introduction
-This activity tries to achieve photon counting from a weak light source where photons are emited. If we have a highly sensitive detector (SiPM) with enough gain we can collect some of the photons.
-## Setup experiment
-![[IEEE - SPSS School-1792628113191.webp]]
-DAQ processing are gonna be in Red Pitaya and data lecture and analysis in a conventional laptop connected via WiFi.
-### Light Pulser
-![[IEEE - SPSS School-1792628217844.webp]]Light was emitted by blue LED ($\lambda=465\,\text{nm}$) where all charge is given by capacitor $c=100\,\text{pF}$. Exceded voltage allows excedent of charge that leads to LED bright.
-> [!success] Necessary energy of a blue photon.
-> It will require
-> $$
-> E=h\nu=\frac{hc}{\lambda}= \frac{2\pi \hbar c}{\lambda}= \frac{2\pi (197\,\text{eV}\cdot\text{nm})}{465\,\text{nm}}=2.67\,\text{eV}
-> $$
-> This is the minimum voltage, but it will be barely visible.
+Photon-counting analysis using an MPPC/SiPM and two measurement datasets.
+The project includes Bokeh and Plotly versions, along with the resulting
+figures.
 
-In this exercise, we will need 3.2 V due to resistence and so on. For example, if 4.8 V is applied, the excess voltage is 1.6 V. Then charge is $Q=CV=(100\,\text{pF})(1.6\,\text{V})=160\,\text{pC}$.
+## Packages Used
 
-> [!success] 160 pC of electrons ﬂow through the LED. How many electrons is that?
-> $$
-> N_{e} = \frac{C}{e} = \frac{160\,\text{pF}}{1.6\times10^{-19}\,\text{C}} = 10^9\,\text{electrons}
-> $$
+- **NumPy** and **Pandas**: data handling and analysis.
+- **SciPy**: curve fitting and Poisson distribution analysis.
+- **Bokeh**: interactive plots in the main notebook.
+- **Plotly**: alternative interactive visualization.
+- **CairoSVG**: exporting SVG plots to PDF.
+- **JupyterLab**: running the notebooks.
 
-It's hard to predict how much photons will emitt (LED properties, internal resistance, etc.).
+## Installation
 
-Pulses were seen on a digital oscilloscope *MPPC Scope*. It was set the trigger rate to 1000 Hz for a bias voltage of -11 to -13 V. This will emitt even less light for photon counting. For emitting light it's necessary to get 
-### MPPC (Multi-pixel Photon Counter)
-![[IEEE - SPSS School-1792631808190.webp]]
-- Composed of many pixels, each of one an avalanche photodiode. 
-- Operates in Geiger mode. 
-- S10362-11-050C has 400 pixels. 
-- Don't operate under bright light.
-- Reverse voltage of 70 V→ dark current.
+From the project directory, install the required packages with:
 
-MPPC Scope for this dark current (100 kcps) takes in a coarse frame (4 µs) around 0.4 counts. That is approximately 0-2 pulses expected. *This is a signal to continue.*
+```bash
+python -m pip install numpy pandas scipy bokeh plotly cairosvg jupyterlab
+```
 
-## Histogram
-In our case, there were **two measurements**
+## Reproducing the Analysis
 
-![[figs/window_histogram_0.png|344]]![[figs/window_histogram_1.png|342x171]]
+1. Open the project directory in a terminal.
+2. Start JupyterLab:
 
-where the results are
+   ```bash
+   jupyter lab
+   ```
 
-![[poisson_fit_0.png]]![[poisson_fit_1.png]]
+3. Open either `photon_counting.ipynb` or `photon_counting_plotly.ipynb`.
+4. Run all cells from beginning to end.
 
-Accurated analysis on notebook.
+Keep `MPPC_1.csv` and `MPPC_2.csv` in the project directory so the notebooks
+can load the measurement data.
+
+## Files
+
+- `photon_counting.ipynb`: main analysis using Bokeh.
+- `photon_counting_plotly.ipynb`: alternative analysis using Plotly.
+- `photon_counting.py`: executable version of the Plotly analysis.
+- `plotly_science.py`: scientific visualization template for Plotly.
+- `photon_counting.html`: HTML export of an interactive plot.
+- `MPPC_1.csv` and `MPPC_2.csv`: data from the two measurements.
+- `figs/`: histograms, Poisson fits, and exported figures.
+- `Photon Counting Experiment.pdf`: experiment report.
+- `docs/Photosensor-2026 October v2.0.pdf`: photosensor documentation.
+- `docs/Photon-counting-exercise-2026-v1.pdf`: exercise guide.
